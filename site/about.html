@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Fair Mitigation Finance Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,30..100&family=Source+Sans+3:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Fair Mitigation Finance Explorer</span>
+      <a class="brand-sub" href="https://iiasa.ac.at/programs/ece" target="_blank" rel="noopener">IIASA · ECE program</a>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Tool</a>
+      <a href="about.html" class="active">About</a>
+      <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">Paper</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <h2>Contents</h2>
+      <nav class="toc">
+        <a href="#overview">Overview</a>
+        <a href="#inputs">Inputs</a>
+        <a href="#method">Method</a>
+        <a href="#regions">Regions</a>
+        <a href="#publication">Publication</a>
+        <a href="#other-tools">Other equity tools</a>
+        <a href="#source">Source &amp; citation</a>
+      </nav>
+    </aside>
+
+    <main class="main about-main">
+      <article class="prose">
+        <h1 id="overview">About this tool</h1>
+        <p class="lede">
+          This is the webapp accompanying <em>Fairness considerations in global mitigation investments</em>
+          by Shonali Pachauri, Setu Pelz, Christoph Bertram, Silvie Kreibiehl, Narasimha D. Rao,
+          Youba Sokona and Keywan Riahi, published in <em>Science</em> (2022),
+          <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">10.1126/science.adf0067</a>.
+        </p>
+        <img class="about-figure" src="assets/introfig.png" alt="Schematic of fair-share contributions to regional mitigation investment needs" />
+        <p>
+          It lets you systematically explore 'fair' regional contributions to near-term (2020–2030)
+          regional mitigation investment needs derived from global cost-effective mitigation pathways
+          assessed by Working Group III of the
+          <a href="https://www.ipcc.ch/report/sixth-assessment-report-working-group-3/" target="_blank" rel="noopener">IPCC AR6</a>.
+          You choose one indicator for each of three equity considerations — responsibility, capability
+          and need — and weight them. The tool then determines the corresponding 'fair-share' regional
+          contributions to the regional cost-effective investment needs in Figure TS.25 of the WGIII
+          Technical Summary, and shows what inter-regional transfers would be needed to close the gap.
+        </p>
+        <div class="callout">
+          Originally built in 2022 as an R Shiny app on shinyapps.io. This is a static rebuild of the same
+          tool on GitHub Pages — same data, same arithmetic, no server. No new features are planned.
+        </div>
+
+        <h2 id="inputs">Inputs</h2>
+        <ul>
+          <li><strong>Responsibility.</strong> A higher weight means regions with larger historical emissions carry a proportionally larger share of finance contributions. Quantified with cumulative CO₂ from fossil fuels and industry (CO₂-FFI) over 1850–2019 (R1) or 1990–2019 (R2) — the dominant long-lived forcer, appropriate for a historical lens.</li>
+          <li><strong>Capability.</strong> A higher weight means wealthier, more capable regions carry a larger share. Quantified with per-capita GDP (C1) or per-capita capital stock (C2) in 2019, the year before the decade of analysis.</li>
+          <li><strong>Need.</strong> A higher weight means regions with higher deprivation or climate risk contribute a <em>smaller</em> share. Quantified as multidimensional deprivation in Decent Living Standards (N1; Rao &amp; Min 2018, Kikstra et al. 2021) or acute multi-sector climate risk in 2030 (N2; Byers et al. 2018).</li>
+          <li><strong>Investment-need bounds.</strong> Lower or upper bound of regional cost-effective annual mitigation investment needs for 2020–2030 from Figure TS.25 of the IPCC WGIII AR6 Technical Summary.</li>
+        </ul>
+        <p>
+          Weights are relative: the three slider values are rescaled to sum to 100. Setting a slider to
+          zero drops that consideration entirely; the indicator panels grey it out.
+        </p>
+
+        <h2 id="method">Method</h2>
+        <p>
+          Each indicator is first transformed into a regional share of global investment needs (the
+          transformation is documented in the paper's supplementary materials; the resulting shares are
+          shipped with this tool as data). The weighted sum of the three selected shares is each region's
+          <strong>fair-share allocation</strong>. Multiplying by the global total of cost-effective needs
+          gives the region's fair-share contribution in billion USD per year.
+        </p>
+        <div class="callout">
+          fair-share contribution − cost-effective need &gt; 0 &nbsp;→&nbsp; inter-regional outflow<br/>
+          fair-share contribution − cost-effective need &lt; 0 &nbsp;→&nbsp; needs met by inter-regional inflow
+        </div>
+        <p>
+          A region whose fair share exceeds its own needs finances the surplus elsewhere; a region whose
+          needs exceed its fair share has the gap met by inter-regional contributions. The 'Flows' tab
+          draws these as a Sankey diagram through a notional inter-regional fund. 'Recent average
+          within-region investment' is shown for comparison and is not part of the allocation.
+        </p>
+        <p>
+          Investment needs are in USD PPP 2015; GDP used for the 'share of GDP' view is 2019 USD PPP 2017.
+          That mismatch is inherited from the source data and is immaterial for the comparisons shown.
+        </p>
+
+        <h2 id="regions">Regions</h2>
+        <p>Regions follow the IPCC WGIII R10 definitions. Country-level membership is in the paper SI.</p>
+        <ul>
+          <li><code>SAP</code> South-East Asia and developing Pacific</li>
+          <li><code>MEA</code> Middle East</li>
+          <li><code>APD</code> Asia-Pacific Developed</li>
+          <li><code>AFR</code> Africa</li>
+          <li><code>SAS</code> Southern Asia</li>
+          <li><code>LAC</code> Latin America and Caribbean</li>
+          <li><code>EEA</code> Eastern Europe and West-Central Asia</li>
+          <li><code>EAS</code> Eastern Asia</li>
+          <li><code>EUR</code> Europe</li>
+          <li><code>NAM</code> North America</li>
+        </ul>
+
+        <h2 id="publication">Publication</h2>
+        <p>
+          Pachauri, S., Pelz, S., Bertram, C., Kreibiehl, S., Rao, N. D., Sokona, Y., &amp; Riahi, K. (2022).
+          Fairness considerations in global mitigation investments. <em>Science</em>, 378(6624), 1057–1059.
+          <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">10.1126/science.adf0067</a>
+        </p>
+        <p>
+          Affiliations: International Institute for Applied Systems Analysis; Potsdam Institute for Climate
+          Impact Research; Germanwatch e.V.; Yale School of the Environment; South Centre; University College London.
+        </p>
+        <p>
+          Replication archive (citeable): <a href="https://doi.org/10.5281/zenodo.7308573" target="_blank" rel="noopener">10.5281/zenodo.7308573</a>
+          · GitHub: <a href="https://github.com/setupelz/repl_2022_fairmitigation" target="_blank" rel="noopener">setupelz/repl_2022_fairmitigation</a>
+        </p>
+
+        <h2 id="other-tools">Other climate equity tools</h2>
+        <p>
+          A large climate-equity literature informs discussions of carbon-budget sharing and equitable
+          emissions reductions. These tools apply various equity approaches and are generally distinct from
+          our focus on near-term mitigation investment finance. Listed without endorsement and without claim
+          to completeness.
+        </p>
+        <ul>
+          <li><a href="https://calculator.climateequityreference.org/" target="_blank" rel="noopener">Climate Equity Reference Calculator</a></li>
+          <li><a href="https://climateequitymonitor.in" target="_blank" rel="noopener">Climate Equity Monitor</a></li>
+          <li><a href="https://climateactiontracker.org/countries/rating-system/" target="_blank" rel="noopener">Climate Action Tracker — fair-share rating</a></li>
+          <li><a href="https://paris-equity-check.org/multi-equity-map.html" target="_blank" rel="noopener">Paris Equity Check</a></li>
+          <li><a href="http://www.ccalc.ethz.ch" target="_blank" rel="noopener">ETH Climate Calculator</a></li>
+          <li><a href="https://github.com/setupelz/fair-shares" target="_blank" rel="noopener">fair-shares</a> — our later Python library for fair-share carbon-budget allocations (see also the <a href="https://setupelz.com/carbondebtexplorer/" target="_blank" rel="noopener">Carbon Debt Explorer</a>)</li>
+        </ul>
+
+        <h2 id="source">Source and citation</h2>
+        <p>
+          Code for this site: <a href="https://github.com/setupelz/repl_2022_fairmitigation" target="_blank" rel="noopener">github.com/setupelz/repl_2022_fairmitigation</a>, the paper's replication archive (MIT).
+          If you use results from the tool, cite the paper above.
+          Questions: <a href="mailto:pelz@iiasa.ac.at">pelz@iiasa.ac.at</a>.
+        </p>
+      </article>
+
+      <footer class="footer">
+        <span>MIT License · © 2022–2026 Setu Pelz</span>
+        <span><a href="index.html">← Back to the tool</a></span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

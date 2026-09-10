@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fair Mitigation Finance Explorer</title>
+  <meta name="description" content="Explore 'fair-share' regional contributions to near-term (2020–2030) mitigation investment needs from IPCC AR6 WGIII, weighting responsibility, capability and need." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,30..100&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/vendor/highcharts.js"></script>
+  <script src="assets/vendor/sankey.js"></script>
+  <script src="assets/data.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Fair Mitigation Finance Explorer</span>
+      <a class="brand-sub" href="https://iiasa.ac.at/programs/ece" target="_blank" rel="noopener">IIASA · ECE program</a>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="active">Tool</a>
+      <a href="about.html">About</a>
+      <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">Paper</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <h2>How would you determine 'fair' inter-regional mitigation finance contributions?</h2>
+      <p class="sidebar-help">
+        Pick one indicator per equity consideration and weight it. Weights are relative —
+        they are rescaled to sum to 100.
+      </p>
+
+      <div class="field">
+        <label for="sel-R">Responsibility
+          <span class="hint" title="Higher weight: regions with larger historical emissions carry a proportionally larger share of finance contributions. Quantified using CO₂ from fossil fuels and industry over 1850–2019 or 1990–2019.">ⓘ</span>
+        </label>
+        <select id="sel-R"></select>
+        <div class="slider-row">
+          <input id="w-R" type="range" min="0" max="100" step="5" value="30" />
+          <output id="w-R-out">30</output>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="sel-C">Capability
+          <span class="hint" title="Higher weight: wealthier, more capable regions carry a proportionally larger share. Quantified using per-capita GDP or per-capita capital stock in 2019, the year before the decade of analysis.">ⓘ</span>
+        </label>
+        <select id="sel-C"></select>
+        <div class="slider-row">
+          <input id="w-C" type="range" min="0" max="100" step="5" value="30" />
+          <output id="w-C-out">30</output>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="sel-N">Need
+          <span class="hint" title="Higher weight: regions with higher deprivation or climate risk contribute a proportionally smaller share. Quantified as multidimensional deprivation in Decent Living Standards (Rao &amp; Min 2018; Kikstra et al. 2021) or acute multi-sector climate risk (Byers et al. 2018).">ⓘ</span>
+        </label>
+        <select id="sel-N"></select>
+        <div class="slider-row">
+          <input id="w-N" type="range" min="0" max="100" step="5" value="30" />
+          <output id="w-N-out">30</output>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="sel-bound">AR6 TS.25 cost-effective investment needs
+          <span class="hint" title="Lower and upper bound of regional cost-effective annual mitigation investment needs for 2020–2030, from Figure TS.25 of the IPCC WGIII AR6 Technical Summary.">ⓘ</span>
+        </label>
+        <select id="sel-bound"></select>
+      </div>
+
+      <div class="legend-note" id="weights-note" aria-live="polite"></div>
+    </aside>
+
+    <main class="main">
+      <section class="headline">
+        <h1>Fair-share contributions to near-term mitigation investment</h1>
+        <p>
+          Regional cost-effective investment needs for 2020–2030 come from IPCC AR6 WGIII
+          (Technical Summary, Figure TS.25). The tool redistributes the global total across the
+          ten WGIII regions using your weighting of responsibility, capability and need, and
+          shows the within-region and inter-regional contributions that result. Method and data:
+          <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">Pachauri et al. (2022), <em>Science</em></a>.
+        </p>
+      </section>
+
+      <div class="summary-strip" aria-live="polite"></div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" role="tab" data-tab="contrib">Contributions</button>
+        <button class="tab" role="tab" data-tab="gdp">As share of GDP</button>
+        <button class="tab" role="tab" data-tab="sankey">Flows</button>
+        <button class="tab" role="tab" data-tab="indicators">Indicators</button>
+      </div>
+
+      <section class="tabpane active" data-pane="contrib">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Regional investment needs and 'fair-share' contributions, 2020–2030</h2>
+            <p class="card-sub">
+              Billion USD (PPP 2015) per year. Stacked bars split each region's fair-share contribution
+              into within-region spending and inter-regional transfers; markers show AR6 cost-effective
+              needs; the narrow grey bar shows recent average within-region investment.
+            </p>
+          </div>
+          <div id="chart-contrib" class="chart-container"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Table</h2>
+          </div>
+          <div class="table-wrap"><table id="tbl-contrib" class="data-table"></table></div>
+        </div>
+      </section>
+
+      <section class="tabpane" data-pane="gdp">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">The same, as a share of regional GDP (2019)</h2>
+            <p class="card-sub">
+              Annual contributions divided by 2019 regional GDP (USD PPP 2017). Same colour coding as the first tab.
+            </p>
+          </div>
+          <div id="chart-gdp" class="chart-container"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Table</h2>
+          </div>
+          <div class="table-wrap"><table id="tbl-gdp" class="data-table"></table></div>
+        </div>
+      </section>
+
+      <section class="tabpane" data-pane="sankey">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Within-region and inter-regional flows</h2>
+            <p class="card-sub">
+              Annual contributions (billion USD PPP 2015) needed to align regional cost-effective needs
+              with fair-share contributions. Regions on the left pay into within-region needs or an
+              inter-regional fund; the fund pays out to regions whose needs exceed their fair share.
+            </p>
+          </div>
+          <div id="chart-sankey" class="chart-container tall"></div>
+        </div>
+      </section>
+
+      <section class="tabpane" data-pane="indicators">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Selected indicators in original units</h2>
+            <p class="card-sub">One panel per selected indicator. Greyed panels carry zero weight.</p>
+          </div>
+          <div class="facets" id="facets-raw"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Corresponding indicator allocations</h2>
+            <p class="card-sub">Each indicator transformed into a regional share of global investment needs (see paper SI for the transformation).</p>
+          </div>
+          <div class="facets" id="facets-shares"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title">Weighted aggregate allocation</h2>
+            <p class="card-sub">The weighted combination of the three indicator allocations — the shares that drive every other view.</p>
+          </div>
+          <div id="chart-agg" class="chart-container short"></div>
+        </div>
+      </section>
+
+      <p class="region-key">
+        <strong>Regions (IPCC WGIII R10):</strong>
+        <span id="region-key-list"></span>
+      </p>
+
+      <footer class="footer">
+        <span>Tool by Setu Pelz · <a href="https://iiasa.ac.at/programs/ece" target="_blank" rel="noopener">IIASA ECE</a> · <a href="mailto:pelz@iiasa.ac.at">pelz@iiasa.ac.at</a></span>
+        <span>Pachauri et al. (2022) <a href="https://doi.org/10.1126/science.adf0067" target="_blank" rel="noopener">10.1126/science.adf0067</a> · Replication <a href="https://doi.org/10.5281/zenodo.7308573" target="_blank" rel="noopener">10.5281/zenodo.7308573</a> · MIT</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
