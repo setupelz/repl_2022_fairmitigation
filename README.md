@@ -1,5 +1,12 @@
 # Replication archive for: "Fairness considerations in global mitigation investments", S. Pachauri et al., Science (2022), doi:10.1126/science.adf0067
 
+[![paper](https://img.shields.io/badge/paper-10.1126%2Fscience.adf0067-1f6feb)](https://doi.org/10.1126/science.adf0067) [![Zenodo](https://zenodo.org/badge/563961776.svg)](https://zenodo.org/badge/latestdoi/563961776) [![licence](https://img.shields.io/badge/licence-MIT-8a8f98)](LICENSE) [![explorer](https://img.shields.io/badge/explorer-setupelz.com%2Ffairfinance-2a9d8f)](https://setupelz.com/fairfinance/)
+
+- Paper: https://doi.org/10.1126/science.adf0067
+- Archive of record: https://zenodo.org/badge/latestdoi/563961776 (every release is archived on Zenodo)
+- Interactive explorer: https://setupelz.com/fairfinance/
+- Summary page: https://setupelz.com/work/mitigation-investments.html
+
 Title: Fairness considerations in global mitigation investments
 
 Authors: Shonali Pachauri1, Setu Pelz1, Christoph Bertram2, Silvie Kreibiehl3, Narasimha D. Rao1,4, Keywan Riahi1, Youba Sokona5,6

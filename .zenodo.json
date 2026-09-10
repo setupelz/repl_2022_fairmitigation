@@ -1,0 +1,38 @@
+{
+  "title": "Replication archive: Fairness considerations in global mitigation investments",
+  "description": "<p>Code, data and figures for Pachauri et al. (2022), <i>Science</i>, <a href=\"https://doi.org/10.1126/science.adf0067\">doi:10.1126/science.adf0067</a>. The interactive explorer built from this archive is at <a href=\"https://setupelz.com/fairfinance/\">https://setupelz.com/fairfinance/</a>. Summary and materials: <a href=\"https://setupelz.com/work/mitigation-investments.html\">https://setupelz.com/work/mitigation-investments.html</a>.</p>",
+  "creators": [
+    {
+      "name": "Pelz, Setu",
+      "affiliation": "International Institute for Applied Systems Analysis",
+      "orcid": "0000-0002-3528-8679"
+    }
+  ],
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "mitigation investment",
+    "fair shares",
+    "climate finance",
+    "climate equity",
+    "replication archive"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1126/science.adf0067",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "https://setupelz.com/fairfinance/",
+      "relation": "isSourceOf",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://setupelz.com/work/mitigation-investments.html",
+      "relation": "isDescribedBy",
+      "resource_type": "other"
+    }
+  ]
+}
