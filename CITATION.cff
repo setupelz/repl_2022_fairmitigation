@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this archive, cite the paper below and the archive by its Zenodo DOI."
 title: "Replication archive: Fairness considerations in global mitigation investments"
 type: software
-version: 1.1.1
+version: 2.1
 date-released: 2026-09-10
 license: MIT
 repository-code: https://github.com/setupelz/repl_2022_fairmitigation
